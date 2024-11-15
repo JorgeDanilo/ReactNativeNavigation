@@ -4,36 +4,47 @@ import { DrawerActions, type NavigationProp, useNavigation } from '@react-naviga
 import { PrimaryButton } from '../../components/shared/PrimaryButton';
 import type { RootStackParams } from '../../routes/StackNavigator';
 import { useEffect } from 'react';
+import { SignOutScreen } from '../signout/SignOutScreen';
+import { useAuthStore } from '../../store/AuthStore';
+import { useAuth } from '../../hooks/UseAuth';
 
 export const HomeScreen = () => {
 
   const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <Pressable onPress={ () => navigation.dispatch( DrawerActions.toggleDrawer() ) }>
-          <Text>Menu</Text>
-        </Pressable>
-      )
-    })
-  }, [])
-  
+  const { logout } = useAuth();
+
+
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: () => (
+  //       <Pressable onPress={ () => navigation.dispatch( DrawerActions.toggleDrawer() ) }>
+  //         <Text>Menu</Text>
+  //       </Pressable>
+  //     )
+  //   })
+  // }, [])
+
 
   return (
-   <View style={globalStyles.container}>
-      
-      <PrimaryButton 
+    <View style={ globalStyles.container }>
+
+      <PrimaryButton
         label="Products"
-        onPress={() => navigation.navigate('Products')}
+        onPress={ () => navigation.navigate( 'Products' ) }
       />
 
-      <PrimaryButton 
+      <PrimaryButton
         label="Settings"
-        onPress={() => navigation.navigate('Settings')}
+        onPress={ () => navigation.navigate( 'Settings' ) }
+      />
+
+      <PrimaryButton
+        label="Sign Out"
+        onPress={ logout }
       />
 
     </View>
-  )
-}
+  );
+};
